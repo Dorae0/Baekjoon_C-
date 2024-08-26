@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 2152 KB, 시간: 28 ms
+메모리: 2284 KB, 시간: 68 ms
 
 ### 분류
 
@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2024년 8월 26일 21:52:56
+2024년 8월 26일 22:01:24
 
 ### 문제 설명
 
@@ -20,7 +20,7 @@
 
 <p>우리가 보낸 요청은 어떻게 목적지까지 도달하는 것일까? 컴퓨터에서는 패킷이라고 하는 형태로 정보를 주고 받는다. 네트워크의 유저들은 1:1로 연결되어 있지 않으므로, 일반적으로 패킷은 라우터라는 장비를 여러 번 거친다. 그러면 라우터에서는 패킷을 다른 라우터로 보내거나, 만약 목적지와 직접적으로 연결되어 있다면 그곳으로 보낼 수도 있다. 즉, 택배 회사의 물류 센터와 비슷한 역할을 한다고 보면 된다.</p>
 
-<p style="text-align: center;"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/15828/1.png" style="width: 375px; height: 222px;"></p>
+<p style="text-align: center;"><img alt="" src="" style="width: 375px; height: 222px;"></p>
 
 <p style="text-align: center;">그림1. 네트워크에 존재하는 라우터들의 구성 예시</p>
 

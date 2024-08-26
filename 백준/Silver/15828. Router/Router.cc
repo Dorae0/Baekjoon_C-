@@ -18,7 +18,7 @@ int main()
 			break;
 		else
 		{
-			if (q.size() <= n)
+			if (q.size() < n)
 				q.push(temp);
 		}
 	}
