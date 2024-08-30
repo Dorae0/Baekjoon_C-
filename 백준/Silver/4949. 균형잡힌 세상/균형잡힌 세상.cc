@@ -49,7 +49,7 @@ int main()
             else if(s[i] == '.')
                 break;
         }
-        if(ans && st.empty()) cout << "yes" << endl;
-        else cout << "no" << endl;
+        if(ans && st.empty()) cout << "yes" << '\n';
+        else cout << "no" << '\n';
     }
 }
