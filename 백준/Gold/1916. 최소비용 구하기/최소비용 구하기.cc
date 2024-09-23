@@ -15,6 +15,8 @@ void Dijkstra();
 
 int main()
 {
+    cin.tie(0); cout.tie(0);
+    ios::sync_with_stdio(false);
     cin >> n >> m;
     Init();
     for(int i = 0; i < m; i++)
