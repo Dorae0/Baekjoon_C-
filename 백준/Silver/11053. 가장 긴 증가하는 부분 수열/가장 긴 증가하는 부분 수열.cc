@@ -1,58 +1,33 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <algorithm>
+#define MAX 1000
+
 using namespace std;
+int n, len;
+int Values[MAX];
+int dp[MAX];
 
-int numDatabase[1001] = { 0, };
-int dp[1001] = { 0, };
-int numbersCount = 0;
-
-void dpInit();
-void Solution();
-int Calculate();
-void Print();
+void DP();
 
 int main()
 {
-	dpInit();
-	Solution();
-	Print();
-	return 0;
+    cin.tie(0); cout.tie(0);
+    ios::sync_with_stdio(false);
+    cin >> n;
+    for(int i = 0; i < n; i++) cin >> Values[i];
+    DP();
+    cout << len;
 }
 
-void dpInit()
+void DP()
 {
-	cin >> numbersCount;
-	for (int i = 0; i < numbersCount; i++)
-	{
-		cin >> numDatabase[i];
-		dp[i] = 1;
-	}
-}
-
-void Solution()
-{
-	for (int i = 1; i < numbersCount; i++)
-	{
-		for (int j = 0; j < i; j++)
-		{
-			if (numDatabase[i] > numDatabase[j])
-			{
-				dp[i] = dp[i] < dp[j] + 1 ? dp[j] + 1 : dp[i];
-			}
-		}
-	}
-}
-
-int Calculate()
-{
-	int answer = 0;
-	for (int i = 0; i < numbersCount; i++)
-		answer = answer > dp[i] ? answer : dp[i];
-	return answer;
-}
-
-void Print()
-{
-	cout << Calculate();
+    for(int i = 0; i < n; i++)
+        dp[i]++;
+    for(int i = 1; i < n; i++)
+    {
+        for(int j = 0; j < i; j++)
+            if(Values[i] > Values[j])
+                dp[i] = max(dp[i], dp[j] + 1);
+        len = max(len, dp[i]);
+    }
+    len = max(len, dp[0]);
 }
