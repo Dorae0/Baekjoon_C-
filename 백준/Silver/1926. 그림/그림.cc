@@ -16,6 +16,8 @@ void BFS();
 
 int main()
 {
+    cin.tie(0); cout.tie(0);
+    ios::sync_with_stdio(false);
 	cin >> n >> m;
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < m; j++)
