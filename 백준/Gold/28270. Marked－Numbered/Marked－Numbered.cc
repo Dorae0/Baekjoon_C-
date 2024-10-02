@@ -1,50 +1,91 @@
 #include <iostream>
-#define MAX 1000001
+#include <vector>
 
 using namespace std;
-int n;
-int marked[MAX];
-int numbered[MAX];
-int indexCount[MAX];
 
-void Flush(int x);
-void markedToNumbered();
+struct Node{
+    int Index;
+    Node* Prev;
+    vector<Node*> Next;
+    Node(int Number, Node* Node){
+        Index = Number;
+        Prev = Node;
+    }
+    void insert(int Number){
+        this->Next.push_back(new Node(Number, this));
+    }
+};
+
+int C, M;
+bool IsValid = true;
+void Input();
+void Print(Node* Root);
+void DFS(Node* Root, int Number);
 
 int main()
 {
-	cin.tie(0); cout.tie(0);
-	ios::sync_with_stdio(false);
-	cin >> n;
-	marked[0] = 0;
-	for (int i = 1; i <= n; i++)
-	{
-		cin >> marked[i];
-		if (marked[i] - marked[i - 1] > 1)
-		{
-			cout << -1;
-			return 0;
-		}
-	}
-	markedToNumbered();
-	return 0;
+    cin.tie(0); cout.tie(0);
+    ios::sync_with_stdio(false);
+    Input();
 }
 
-void Flush(int x)
+void Input()
 {
-	for (int i = x; i <= n; i++)
-		indexCount[i] = 0;
+    Node* Root = new Node(0, nullptr);
+    cin >> C;
+    for(int i = 0; i < C; i++)
+    {
+        cin >> M;
+        if(IsValid)
+        {
+            if(Root->Index == M - 1)
+            {
+                Root->insert(M);
+            }
+            else if(Root->Index == M - 2)
+            {
+                if(Root->Next.empty())
+                    IsValid = false;
+                else
+                {
+                    Root = Root->Next.back();
+                    Root->insert(M);
+                }
+            }
+            else if(Root->Index >= M)
+            {
+                int Sub = Root->Index - M + 1;
+                for(int i = 0; i < Sub; i++)
+                    Root = Root->Prev;
+                Root->insert(M);
+            }
+            else
+                IsValid = false;
+        }
+    }
+    while(1)
+    {
+        if(Root->Index == 0)
+            break;
+        else
+            Root = Root->Prev;
+    }
+    Print(Root);
 }
 
-void markedToNumbered()
+void Print(Node* Root)
 {
-	for (int i = 1; i <= n; i++)
-	{
-		int CurrentMark = marked[i];
-		int PreviousMark = marked[i - 1];
-		if (CurrentMark < PreviousMark)
-			Flush(PreviousMark);
-		numbered[i] = ++indexCount[CurrentMark];
-	}
-	for (int i = 1; i <= n; i++)
-		cout << numbered[i] << ' ';
+    if(!IsValid)
+        cout << -1;
+    else
+        DFS(Root, 1);
+}
+
+void DFS(Node* Root, int Number)
+{
+    for(int i = 0; i < Root->Next.size(); i++)
+    {
+        cout << Number++ << ' ';
+        DFS(Root->Next[i], 1);
+    }
 }
