@@ -1,25 +1,23 @@
 #include <iostream>
 #include <vector>
-#define MAX 2701
+#define MAX 501
 #define INF ~0U >> 2
 
 using namespace std;
-int tc, n, m, w;
-int s, e, t;
+int tc, n, m, w, s, e, t; 
 int Dist[MAX];
-vector <pair<int, int>> edge;
-int map[MAX][MAX];
+vector<pair<pair<int, int>, int>> edges;
+
 void Init();
 void DistInit();
-void EdgeInit();
-void MapInit();
+void Solve();
 void Bellman_Ford();
 
 int main()
 {
     Init();
     for(int i = 0; i < tc; i++)
-        Bellman_Ford();
+        Solve();
 }
 
 void Init()
@@ -31,66 +29,48 @@ void Init()
 
 void DistInit()
 {
-    for(int i = 0; i < MAX; i++)
+    for(int i = 1; i <= n; i++)
         Dist[i] = INF;
 }
 
-void EdgeInit()
-{
-    while(!edge.empty())
-        edge.pop_back();
-}
-
-void MapInit()
-{
-    for(int i = 0; i < MAX; i++)
-        for(int j = 0; j < MAX; j++)
-            map[i][j] = INF;
-}
-
-void Bellman_Ford()
+void Solve()
 {
     cin >> n >> m >> w;
     DistInit();
-    EdgeInit();
-    MapInit();
-    Dist[1] = 0;
+    while(!edges.empty()) edges.pop_back();
+
     for(int i = 0; i < m; i++)
     {
         cin >> s >> e >> t;
-        if(map[s][e] == INF)
-            edge.push_back({s, e});
-        map[s][e] = min(map[s][e], t);
-        if(map[e][s] == INF)
-            edge.push_back({e, s});
-        map[e][s] = min(map[e][s], t);
+        edges.push_back({{s, e}, t});
+        edges.push_back({{e, s}, t});
     }
     for(int i = 0; i < w; i++)
     {
         cin >> s >> e >> t;
-        if(map[s][e] == INF)
-            edge.push_back({s, e});
-        map[s][e] = min(map[s][e], -t);
+        edges.push_back({{s, e}, -t});
     }
+    Bellman_Ford();
+}
+
+void Bellman_Ford()
+{
+    Dist[1] = 0;
     for(int i = 1; i < n; i++)
-    {
-        for(int j = 0; j < edge.size(); j++)
+        for(int j = 0; j < edges.size(); j++)
         {
-            int StartNode = edge[j].first;
-            int EndNode = edge[j].second;
-            int Weight = map[StartNode][EndNode];
-
-            // if(Dist[StartNode] == INF) continue;
-            if(Dist[EndNode] > Dist[StartNode] + Weight) Dist[EndNode] = Dist[StartNode] + Weight;
+            int StartNode = edges[j].first.first;
+            int EndNode = edges[j].first.second;
+            int Weight = edges[j].second;
+            if(Dist[EndNode] > Dist[StartNode] + Weight)
+                Dist[EndNode] = Dist[StartNode] + Weight;
         }
-    }
-    for(int j = 0; j < edge.size(); j++)
+    
+    for(int i = 0; i < edges.size(); i++)
     {
-        int StartNode = edge[j].first;
-        int EndNode = edge[j].second;
-        int Weight = map[StartNode][EndNode];
-
-        // if(Dist[StartNode] == INF) continue;
+        int StartNode = edges[i].first.first;
+        int EndNode = edges[i].first.second;
+        int Weight = edges[i].second;
         if(Dist[EndNode] > Dist[StartNode] + Weight)
         {
             cout << "YES" << '\n';
