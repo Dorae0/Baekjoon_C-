@@ -1,81 +1,84 @@
 #include <string>
 #include <vector>
-#include <queue>
+#include <stack>
 #define MAX 1000001
 
 using namespace std;
+vector<int> node_in[MAX];
+vector<int> node_out[MAX];
+stack<int> s;
+int graph_donut, graph_bar, graph_eight;
 
-int Graph_Donut, Graph_Bar, Graph_Eight;
-int Node_Out[MAX];
-int Node_In[MAX];
-vector<vector<int>> path(MAX);
-queue<int> q;
-
-int InitializeNode(vector<vector<int>> edges);
-void SearchGraph();
+void VectorInit(vector<vector<int>> edges);
+int FindStartNode();
+void FindGraph(int Node);
 
 vector<int> solution(vector<vector<int>> edges) {
     vector<int> answer;
-    int AttachedNode = InitializeNode(edges);
-    answer.push_back(AttachedNode);
-    for(int i = 0 ; i < path[AttachedNode].size(); i++)
-    {
-        q.push(path[AttachedNode][i]);
-        SearchGraph();
-    }
-    answer.push_back(Graph_Donut);
-    answer.push_back(Graph_Bar);
-    answer.push_back(Graph_Eight);
+    
+    VectorInit(edges);
+    int startNode = FindStartNode();
+    answer.push_back(startNode);
+    
+    for(int i = 0; i < node_out[startNode].size(); i++)
+        FindGraph(node_out[startNode][i]);
+    
+    answer.push_back(graph_donut);
+    answer.push_back(graph_bar);
+    answer.push_back(graph_eight);
+    
     return answer;
 }
 
-int InitializeNode(vector<vector<int>> edges)
+void VectorInit(vector<vector<int>> edges)
 {
-    int AttachedNode;
     for(int i = 0; i < edges.size(); i++)
     {
-        Node_Out[edges[i][0]]++;
-        Node_In[edges[i][1]]++;
-        path[edges[i][0]].push_back(edges[i][1]);
+        int StartNode = edges[i][0];
+        int EndNode = edges[i][1];
+        node_in[EndNode].push_back(StartNode);
+        node_out[StartNode].push_back(EndNode);
     }
-    for(int i = 1; i < MAX; i++)
-    {
-        if(Node_Out[i] >= 2 && Node_In[i] == 0)
-        {
-            AttachedNode = i;
-            break;
-        }
-    }
-    return AttachedNode;
 }
 
-void SearchGraph()
+int FindStartNode()
 {
-    int CurrentNode;
-    int NextNode;
-    int InitialNode = q.front();
-    
-    while(!q.empty())
+    for(int i = 1; i < MAX; i++)
     {
-        CurrentNode = q.front();
-        q.pop();
-        if(path[CurrentNode].size() == 2)
+        if(node_out[i].size() >= 2 && node_in[i].size() == 0)
+            return i;
+    }
+}
+
+void FindGraph(int Node)
+{
+    s.push(Node);
+    while(!s.empty())
+    {
+        int CurrentNode = s.top();
+        s.pop();
+        if(node_out[CurrentNode].size() >= 2)
         {
-            Graph_Eight++;
+            graph_eight++;
             return;
         }
-        for(int i = 0; i < path[CurrentNode].size(); i++)
+        if(node_out[CurrentNode].size() == 0)
         {
-            NextNode = path[CurrentNode][i];
-            if(NextNode == InitialNode)
+            graph_bar++;
+            return;
+        }
+        for(int i = 0; i < node_out[CurrentNode].size(); i++)
+        {
+            int NextNode = node_out[CurrentNode][i];
+            if(NextNode == Node)
             {
-                Graph_Donut++;
+                graph_donut++;
                 return;
             }
             else
-                q.push(NextNode);
+            {
+                s.push(NextNode);
+            }
         }
     }
-    Graph_Bar++;
-    return;
 }
