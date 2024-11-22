@@ -16,15 +16,11 @@ struct compare
 	}
 };
 
-int n, m;
+int n, m, tmp;
 vector<int> ans;
 priority_queue<pair<int, int>, vector<pair<int, int>>, compare> pq_a;
 priority_queue<pair<int, int>, vector<pair<int, int>>, compare> pq_b;
 vector<pair<int, int>> temp;
-int a[MAX];
-int b[MAX];
-
-int dp[MAX][MAX];
 
 void Init();
 void Latest_Dict();
@@ -44,16 +40,16 @@ void Init()
     ios::sync_with_stdio(false);
     cin >> n;
     for(int i = 0; i < n; i++)
-	{
-		cin >> a[i];
-		pq_a.push({a[i], i});
-	}
+    {
+        cin >> tmp;
+        pq_a.push({tmp, i});
+    }	
     cin >> m;
     for(int i = 0; i < m; i++)
-    {
-		cin >> b[i];
-		pq_b.push({b[i], i});
-	}
+	{
+        cin >> tmp;
+        pq_b.push({tmp, i});
+    }
 }
 
 void Latest_Dict()
