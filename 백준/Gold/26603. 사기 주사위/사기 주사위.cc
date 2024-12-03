@@ -26,18 +26,27 @@ void init()
     cin >> n;
 }
 
-bool checkLog(int dices[4])
+bool checkLog(int dice[4])
 {
+    for(int j = 0; j < 4; j++)
+            for(int k = 0; k < 4; k++)
+                if(!dices[dice[j]][dice[k]])
+                {
+                    dices[dice[j]][dice[k]] = true;
+                    dice_count[dice[j]]++;
+                    if(dice_count[dice[j]] == 8)
+                        return false;
+                }
     for(int i = 0; i < 4; i++)
     {
-        int currentDice = dices[i];
+        int currentDice = dice[i];
         if(dice_log[currentDice].empty())
         {
             vector<int> temp_dices;
             for(int k = 0; k < 4; k++)
             {
                 if(i == k) continue;
-                temp_dices.push_back(dices[k]);
+                temp_dices.push_back(dice[k]);
             }
             dice_log[currentDice].push_back(temp_dices);
         }
@@ -51,7 +60,7 @@ bool checkLog(int dices[4])
                 {
                     if(i == k) continue;
                     for(int l = 0; l < 3; l++)
-                        if(dices[k] == dice_log[currentDice][j][l])
+                        if(dice[k] == dice_log[currentDice][j][l])
                             checkCount++;
                 }
                 if(checkCount == 3)
@@ -67,7 +76,7 @@ bool checkLog(int dices[4])
                 for(int k = 0; k < 4; k++)
                 {
                     if(i == k) continue;
-                    temp_dices.push_back(dices[k]);
+                    temp_dices.push_back(dice[k]);
                 }
                 dice_log[currentDice].push_back(temp_dices);
             }
@@ -101,30 +110,6 @@ void rollDice()
             cout << "You're gonna die!";
             return;
         }
-        for(int j = 0; j < 4; j++)
-            for(int k = 0; k < 4; k++)
-                if(!dices[temp[j]][temp[k]])
-                {
-                    dices[temp[j]][temp[k]] = true;
-                    dice_count[temp[j]]++;
-                    if(dice_count[temp[j]] == 8)
-                    {
-                        cout << "You're gonna die!";
-                        return;
-                    }
-                }
-        for(int j = 0; j < 4; j++)
-            for(int k = 0; k < 4; k++)
-                if(!dices[temp2[j]][temp2[k]])
-                {
-                    dices[temp2[j]][temp2[k]] = true;
-                    dice_count[temp2[j]]++;
-                    if(dice_count[temp2[j]] == 8)
-                    {
-                        cout << "You're gonna die!";
-                        return;
-                    }
-                }
     }
     cout << "Hmm...";
 }
