@@ -100,12 +100,7 @@ void rollDice()
         for(int j = 1; j < MAX; j++)
             if(!dice_check[j])
                 temp2[tempIdx++] = j;
-        if(!checkLog(temp))
-        {
-            cout << "You're gonna die!";
-            return;
-        }
-        if(!checkLog(temp2))
+        if(!checkLog(temp) || !checkLog(temp2))
         {
             cout << "You're gonna die!";
             return;
