@@ -3,11 +3,12 @@
 #include <algorithm>
 
 using namespace std;
-using pii = pair<int, int>;
+using pll = pair<long long , long long>;
 
-int n, temp;
-vector<int> dist;
-vector<pii> value;
+long long n;
+long long temp;
+vector<long long> dist;
+vector<pll> value;
 
 void init();
 void gas_station();
@@ -40,15 +41,15 @@ void init()
 void gas_station()
 {
 	long long ans = 0;
-	int currentPos = n - 1;
-	int valueIdx = -1;
+	long long currentPos = n - 1;
+	long long valueIdx = -1;
 	while(++valueIdx < n - 1)
 	{
-		int currentVal = value[valueIdx].first;
-		int currentIdx = value[valueIdx].second;
-		if(currentPos > currentIdx)
+		long long currentVal = value[valueIdx].first;
+		long long currentIdx = value[valueIdx].second;
+		if(currentPos >= currentIdx)
 		{
-			for(int i = currentIdx; i < currentPos; i++)
+			for(long long i = currentIdx; i < currentPos; i++)
 				ans += currentVal * dist[i];
 			currentPos = currentIdx;
 		}
