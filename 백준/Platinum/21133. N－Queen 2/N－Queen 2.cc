@@ -28,7 +28,7 @@ void nQueen()
 		cout << 3 << '\n' << 1 << '\n';
 		for (int i = 7; i <= n; i += 2)
 			cout << i << '\n';
-		cout << 2;
+		cout << 5;
 	}
 	else if (n % 6 == 3)
 	{
